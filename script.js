@@ -33,10 +33,10 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
-    let playerScore = 0, computerScore = 0;
+    let playerScore = 0, computerScore = 0, round = 1;
 
-    for (let i = 0; i < 5; i++) {
-        console.log(`Round ${i+1}! START!`);
+    while (playerScore < 5 || computerScore < 5) {
+        console.log(`Round ${round}! START!`);
 
         let playerSelection = prompt("Enter your selection: ").toLowerCase();
         console.log("Player selection: " + playerSelection);
@@ -56,9 +56,13 @@ function game() {
         }
 
         console.log(`Scoreboard: 
-                     Player: ${playerScore}
-                     Computer: ${computerScore}`);
-    }
+                 Player: ${playerScore}
+                 Computer: ${computerScore}`);
+
+        round++;
+    } ;
+
+    
 
     console.log("Game over!");
     let winner = getWinner(playerScore, computerScore);
