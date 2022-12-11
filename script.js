@@ -33,33 +33,42 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
-    console.log("SHOW ME YOUR POWER! KIDS!");
+    let playerScore = 0, computerScore = 0, round = 1;
+
+    const gameTitle = document.querySelector("#title");
+    gameTitle.textContent = "SHOW ME YOUR POWER! KIDS! NOW MAKE YOUR DECISION:";
+    console.log("SHOW ME YOUR POWER! KIDS! NOW MAKE YOUR CHOICE:");
+    
     const selections = document.querySelectorAll(".rpsSelection");
     selections.forEach((selection) => {
         selection.addEventListener('click', () => {
-            let playerScore = 0, computerScore = 0, round = 1;
-
-            console.log(`Round ${round}!!`)
+            const gameDescription = document.querySelector("#description");
+            let textContent = `Round ${round}!!`;
 
             const playerSelection = selection.id;
-            console.log("Player selection: " + playerSelection);
+            textContent += "\nPlayer selection: " + playerSelection;
+
             const computerSelection = getComputerChoice();
-            console.log("Computer selection: " + computerSelection);
+            textContent += "\nComputer selection: " + computerSelection;
 
             let result = playRound(playerSelection, computerSelection);
-            console.log(result);
+            textContent += "\n" + result;
 
             if (result.includes('Win')) {
                 playerScore += 1;
             } else if (result.includes('Lose')) {
                 computerScore += 1;
             } else {
-                console.log("Nobody gets score");
+                textContent += ("\nNobody gets score");
             }
 
-            console.log(`Scoreboard: 
+            textContent += (`\nScoreboard: 
                     Player: ${playerScore}
                     Computer: ${computerScore}`);
+
+            gameDescription.textContent = textContent;
+
+            round++;
 
             if (playerScore >= 5 || computerScore >= 5) {
                 console.log("Game over!");
@@ -73,13 +82,8 @@ function game() {
                     console.log("Draw!");
                 }
 
-                const oneMore = askForGame();
-                if (oneMore) {
-                    game();
-                }
+                playerScore = 0, computerScore = 0, round = 0;
             }
-
-            round++;
         });
     });
 }
@@ -105,8 +109,6 @@ function askForGame() {
 }
 
 function createGameButtons() {
-    gameContainer.textContent = '';
-
     const rockButton = document.createElement("button");
     rockButton.setAttribute('id', 'rock');
     rockButton.classList.add('rpsSelection');
@@ -127,13 +129,12 @@ function createGameButtons() {
     gameContainer.appendChild(scissorButton);
 }
 
-game();
-
-// const gameContainer = document.querySelector("#game");
-// const startGame = document.querySelector("#start-game");
-// startGame.addEventListener('click', () => {
-//     const gameTitle = document.querySelector("#title");
-//     gameTitle.textContent = "LET'S GET STARTED!!!"
-//     createGameButtons();
-// });
-
+const gameContainer = document.querySelector("#game");
+const startGame = document.querySelector("#start-game");
+startGame.addEventListener('click', () => {
+    const gameTitle = document.querySelector("#title");
+    gameTitle.textContent = "LET'S GET STARTED!!!";
+    gameContainer.textContent = '';
+    createGameButtons();
+    game();
+});
