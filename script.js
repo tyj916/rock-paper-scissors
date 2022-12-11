@@ -33,47 +33,55 @@ function playRound(playerSelection, computerSelection) {
 }
 
 function game() {
-    let playerScore = 0, computerScore = 0, round = 1;
+    console.log("SHOW ME YOUR POWER! KIDS!");
+    const selections = document.querySelectorAll(".rpsSelection");
+    selections.forEach((selection) => {
+        selection.addEventListener('click', () => {
+            let playerScore = 0, computerScore = 0, round = 1;
 
-    while (playerScore < 5 || computerScore < 5) {
-        console.log(`Round ${round}! START!`);
+            console.log(`Round ${round}!!`)
 
-        let playerSelection = prompt("Enter your selection: ").toLowerCase();
-        console.log("Player selection: " + playerSelection);
+            const playerSelection = selection.id;
+            console.log("Player selection: " + playerSelection);
+            const computerSelection = getComputerChoice();
+            console.log("Computer selection: " + computerSelection);
 
-        let computerSelection = getComputerChoice();
-        console.log("Computer selection: " + computerSelection);
+            let result = playRound(playerSelection, computerSelection);
+            console.log(result);
 
-        let result = playRound(playerSelection, computerSelection);
-        console.log(result);
+            if (result.includes('Win')) {
+                playerScore += 1;
+            } else if (result.includes('Lose')) {
+                computerScore += 1;
+            } else {
+                console.log("Nobody gets score");
+            }
 
-        if (result.includes('Win')) {
-            playerScore += 1;
-        } else if (result.includes('Lose')) {
-            computerScore += 1;
-        } else {
-            console.log("Nobody gets score");
-        }
+            console.log(`Scoreboard: 
+                    Player: ${playerScore}
+                    Computer: ${computerScore}`);
 
-        console.log(`Scoreboard: 
-                 Player: ${playerScore}
-                 Computer: ${computerScore}`);
+            if (playerScore >= 5 || computerScore >= 5) {
+                console.log("Game over!");
+                let winner = getWinner(playerScore, computerScore);
+                
+                if (winner === 'player') {
+                    console.log("You win!");
+                } else if (winner === 'computer') {
+                    console.log("You lose!");
+                } else {
+                    console.log("Draw!");
+                }
 
-        round++;
-    } ;
+                const oneMore = askForGame();
+                if (oneMore) {
+                    game();
+                }
+            }
 
-    
-
-    console.log("Game over!");
-    let winner = getWinner(playerScore, computerScore);
-    
-    if (winner === 'player') {
-        console.log("You win!");
-    } else if (winner === 'computer') {
-        console.log("You lose!");
-    } else {
-        console.log("Draw!");
-    }
+            round++;
+        });
+    });
 }
 
 function getWinner(playerScore, computerScore) {
@@ -92,11 +100,40 @@ function getWinner(playerScore, computerScore) {
             'draw');
 }
 
-let askForGame = confirm("Do you want to play a game?");
-
-while(askForGame) {
-    game();
-    askForGame = confirm("Another game?");
+function askForGame() {
+    return confirm("Do you want to play again?");
 }
 
-console.log("Thanks for playing!");
+function createGameButtons() {
+    gameContainer.textContent = '';
+
+    const rockButton = document.createElement("button");
+    rockButton.setAttribute('id', 'rock');
+    rockButton.classList.add('rpsSelection');
+    rockButton.textContent = 'rock';
+
+    const paperButton = document.createElement("button");
+    paperButton.setAttribute('id', 'paper');
+    paperButton.classList.add('rpsSelection');
+    paperButton.textContent = 'paper';
+
+    const scissorButton = document.createElement("button");
+    scissorButton.setAttribute('id', 'scissor');
+    scissorButton.classList.add('rpsSelection');
+    scissorButton.textContent = 'scissor';
+
+    gameContainer.appendChild(rockButton);
+    gameContainer.appendChild(paperButton);
+    gameContainer.appendChild(scissorButton);
+}
+
+game();
+
+// const gameContainer = document.querySelector("#game");
+// const startGame = document.querySelector("#start-game");
+// startGame.addEventListener('click', () => {
+//     const gameTitle = document.querySelector("#title");
+//     gameTitle.textContent = "LET'S GET STARTED!!!"
+//     createGameButtons();
+// });
+
