@@ -66,24 +66,24 @@ function game() {
                     Player: ${playerScore}
                     Computer: ${computerScore}`);
 
-            gameDescription.textContent = textContent;
-
-            round++;
-
             if (playerScore >= 5 || computerScore >= 5) {
-                console.log("Game over!");
+                textContent += ("\nGame over!");
                 let winner = getWinner(playerScore, computerScore);
                 
                 if (winner === 'player') {
-                    console.log("You win!");
+                    textContent += ("You win!");
                 } else if (winner === 'computer') {
-                    console.log("You lose!");
+                    textContent += ("You lose!");
                 } else {
-                    console.log("Draw!");
+                    textContent += ("Draw!");
                 }
 
                 playerScore = 0, computerScore = 0, round = 0;
             }
+
+            round++;
+
+            gameDescription.innerText = textContent;
         });
     });
 }
