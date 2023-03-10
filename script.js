@@ -11,11 +11,15 @@ function getComputerChoice() {
     return (computerChoice == 0 ? "Rock":
            computerChoice == 1 ? "Paper":
            "Scissors");
-    
 }
 
 function getPlayerChoice() {
-    
+    let playerChoice = prompt("Enter your choice (Rock, Paper or Scissors):").toLowerCase();
+    while (!(playerChoice == 'rock' || playerChoice == 'paper' || playerChoice == 'scissors')) {
+        playerChoice = prompt("Invalid choice, please try again (Rock, Paper or Scissors):").toLowerCase();
+    }
+    let firstChar = playerChoice.charAt(0);
+    return firstChar.toUpperCase() + playerChoice.slice(1);
 }
 
 function tie(choice) {
@@ -56,7 +60,7 @@ function playRound(playerSelection, computerSelection) {
     } else if (playerSelection == 'Scissors') {
         switch (computerSelection) {
             case 'Scissors':
-                return tie(playerSelection);
+                return 'tie';
             case 'Rock':
                 return 'player lose';
             case 'Paper':
@@ -69,11 +73,24 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
+function showWinner(playerScore, computerScore) {
+    if (playerScore > computerScore) {
+        console.log("Player WIN! Congratulations!");
+    } else if (computerScore > playerScore) {
+        console.log("Player LOSE! You weak!");
+    } else {
+        console.log("It's a tie! Phew!");
+    }
+}
+
 function game() {
+    let playerScore = 0, computerScore = 0;
     for (let i = 1; i <= 5; i++) {
-        const playerSelection = 'Rock';
+        const playerSelection = getPlayerChoice();
         const computerSelection = getComputerChoice();
         const result = playRound(playerSelection, computerSelection);
+
+        console.log(`Round ${i}, fight!`);
 
         switch (result) {
             case 'tie':
@@ -82,16 +99,23 @@ function game() {
 
             case 'player win':
                 console.log(playerWin(playerSelection, computerSelection));
+                playerScore++;
                 break;
 
             case 'player lose':
                 console.log(playerLose(playerSelection, computerSelection));
+                computerScore++;
                 break;
 
             default:
                 console.log("Something is wrong with the result");
         }
+
+        console.log(`**Scoreboard**`);
+        console.log(`Player: ${playerScore}`);
+        console.log(`Computer: ${computerScore}`);
     }
+    showWinner(playerScore, computerScore);
 }
 
 game();
