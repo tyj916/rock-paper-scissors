@@ -14,6 +14,10 @@ function getComputerChoice() {
     
 }
 
+function getPlayerChoice() {
+    
+}
+
 function tie(choice) {
     return `No winner! Both of you choose ${choice}`;
 }
@@ -30,22 +34,22 @@ function playRound(playerSelection, computerSelection) {
     if (playerSelection == 'Rock') {
         switch (computerSelection) {
             case 'Rock':
-                return tie(playerSelection);
+                return 'tie';
             case 'Paper':
-                return playerLose(playerSelection, computerSelection);
+                return 'player lose';
             case 'Scissors':
-                return playerWin(playerSelection, computerSelection);
+                return 'player win';
             default:
                 return 'Something is wrong';
         }
     } else if (playerSelection == 'Paper') {
         switch (computerSelection) {
             case 'Paper':
-                return tie(playerSelection);
+                return 'tie';
             case 'Scissors':
-                return playerLose(playerSelection, computerSelection);
+                return 'player lose';
             case 'Rock':
-                return playerWin(playerSelection, computerSelection);
+                return 'player win';
             default:
                 return 'Something is wrong';
         }
@@ -54,17 +58,40 @@ function playRound(playerSelection, computerSelection) {
             case 'Scissors':
                 return tie(playerSelection);
             case 'Rock':
-                return playerLose(playerSelection, computerSelection);
+                return 'player lose';
             case 'Paper':
-                return playerWin(playerSelection, computerSelection);
+                return 'player win';
             default:
                 return 'Something is wrong';
         }
     } else {
-        return 'Something is wrong';
+        return 'Something is wrong in play round';
     }
 }
 
-const playerSelection = 'Rock';
-const computerSelection = getComputerChoice();
-console.log(playRound(playerSelection, computerSelection));
+function game() {
+    for (let i = 1; i <= 5; i++) {
+        const playerSelection = 'Rock';
+        const computerSelection = getComputerChoice();
+        const result = playRound(playerSelection, computerSelection);
+
+        switch (result) {
+            case 'tie':
+                console.log(tie(playerSelection));
+                break;
+
+            case 'player win':
+                console.log(playerWin(playerSelection, computerSelection));
+                break;
+
+            case 'player lose':
+                console.log(playerLose(playerSelection, computerSelection));
+                break;
+
+            default:
+                console.log("Something is wrong with the result");
+        }
+    }
+}
+
+game();
