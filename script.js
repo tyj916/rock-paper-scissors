@@ -13,15 +13,6 @@ function getComputerChoice() {
            "Scissors");
 }
 
-function getPlayerChoice() {
-    let playerChoice = prompt("Enter your choice (Rock, Paper or Scissors):").toLowerCase();
-    while (!(playerChoice == 'rock' || playerChoice == 'paper' || playerChoice == 'scissors')) {
-        playerChoice = prompt("Invalid choice, please try again (Rock, Paper or Scissors):").toLowerCase();
-    }
-    let firstChar = playerChoice.charAt(0);
-    return firstChar.toUpperCase() + playerChoice.slice(1);
-}
-
 function tie(choice) {
     return `No winner! Both of you choose ${choice}`;
 }
@@ -83,39 +74,41 @@ function showWinner(playerScore, computerScore) {
     }
 }
 
-function game() {
-    let playerScore = 0, computerScore = 0;
-    for (let i = 1; i <= 5; i++) {
-        const playerSelection = getPlayerChoice();
-        const computerSelection = getComputerChoice();
-        const result = playRound(playerSelection, computerSelection);
+function game(playerSelection) {
+    const computerSelection = getComputerChoice();
+    const result = playRound(playerSelection, computerSelection);
 
-        console.log(`Round ${i}, fight!`);
+    switch (result) {
+        case 'tie':
+            console.log(tie(playerSelection));
+            break;
 
-        switch (result) {
-            case 'tie':
-                console.log(tie(playerSelection));
-                break;
+        case 'player win':
+            console.log(playerWin(playerSelection, computerSelection));
+            playerScore++;
+            break;
 
-            case 'player win':
-                console.log(playerWin(playerSelection, computerSelection));
-                playerScore++;
-                break;
+        case 'player lose':
+            console.log(playerLose(playerSelection, computerSelection));
+            computerScore++;
+            break;
 
-            case 'player lose':
-                console.log(playerLose(playerSelection, computerSelection));
-                computerScore++;
-                break;
-
-            default:
-                console.log("Something is wrong with the result");
-        }
-
-        console.log(`**Scoreboard**`);
-        console.log(`Player: ${playerScore}`);
-        console.log(`Computer: ${computerScore}`);
+        default:
+            console.log("Something is wrong with the result");
     }
-    showWinner(playerScore, computerScore);
+
+    console.log(`**Scoreboard**`);
+    console.log(`Player: ${playerScore}`);
+    console.log(`Computer: ${computerScore}`);
+
+    if (playerScore >= 5 || computerScore >= 5){
+        showWinner(playerScore, computerScore);
+    }
 }
 
-game();
+let playerScore = 0, computerScore = 0;
+const buttons = document.querySelectorAll('button');
+buttons.forEach(button => {
+    button.addEventListener('click', (e) => game(e.target.id));
+});
+
