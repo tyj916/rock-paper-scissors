@@ -61,7 +61,7 @@ function playRound(playerSelection, computerSelection) {
         }
     } else {
         return 'Something is wrong in play round';
-    }
+    }  
 }
 
 function showWinner(playerScore, computerScore) {
@@ -74,41 +74,44 @@ function showWinner(playerScore, computerScore) {
     }
 }
 
-function game(playerSelection) {
-    const computerSelection = getComputerChoice();
-    const result = playRound(playerSelection, computerSelection);
+function game() {
+    let playerScore = 0, computerScore = 0;
+    
+    const choices = document.querySelectorAll('.choice');
+    choices.forEach(choice => {
+        choice.addEventListener('click', (choice) => {
+            const playerSelection = choice.target.id;
+            const computerSelection = getComputerChoice();
+            
+            let result = playRound(playerSelection, computerSelection);
+            switch (result) {
+                case 'tie':
+                    console.log(tie(playerSelection));
+                    break;
+        
+                case 'player win':
+                    console.log(playerWin(playerSelection, computerSelection));
+                    playerScore++;
+                    break;
+        
+                case 'player lose':
+                    console.log(playerLose(playerSelection, computerSelection));
+                    computerScore++;
+                    break;
+        
+                default:
+                    console.log("Something is wrong with the result");
+            }
+        
+            console.log(`**Scoreboard**`);
+            console.log(`Player: ${playerScore}`);
+            console.log(`Computer: ${computerScore}`);
 
-    switch (result) {
-        case 'tie':
-            console.log(tie(playerSelection));
-            break;
-
-        case 'player win':
-            console.log(playerWin(playerSelection, computerSelection));
-            playerScore++;
-            break;
-
-        case 'player lose':
-            console.log(playerLose(playerSelection, computerSelection));
-            computerScore++;
-            break;
-
-        default:
-            console.log("Something is wrong with the result");
-    }
-
-    console.log(`**Scoreboard**`);
-    console.log(`Player: ${playerScore}`);
-    console.log(`Computer: ${computerScore}`);
-
-    if (playerScore >= 5 || computerScore >= 5){
-        showWinner(playerScore, computerScore);
-    }
+            if (playerScore >= 5 || computerScore >= 5) {
+                showWinner(playerScore, computerScore);
+            }
+        });
+    });
 }
 
-let playerScore = 0, computerScore = 0;
-const buttons = document.querySelectorAll('button');
-buttons.forEach(button => {
-    button.addEventListener('click', (e) => game(e.target.id));
-});
-
+game();
