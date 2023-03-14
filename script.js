@@ -64,38 +64,42 @@ function playRound(playerSelection, computerSelection) {
     }  
 }
 
-function showWinner(playerScore, computerScore) {
+function getWinner(playerScore, computerScore) {
     if (playerScore > computerScore) {
-        console.log("Player WIN! Congratulations!");
+        return ("Player WIN! Congratulations!");
     } else if (computerScore > playerScore) {
-        console.log("Player LOSE! You weak!");
+        return ("Player LOSE! You weak!");
     } else {
-        console.log("It's a tie! Phew!");
+        return ("It's a tie! Phew!");
     }
 }
 
 function game() {
-    let playerScore = 0, computerScore = 0;
+    let playerScore = 0, computerScore = 0, round = 1;
     
     const choices = document.querySelectorAll('.choice');
     choices.forEach(choice => {
         choice.addEventListener('click', (choice) => {
             const playerSelection = choice.target.id;
             const computerSelection = getComputerChoice();
+
+            const roundCounter = document.querySelector("#roundCounter");
+            roundCounter.textContent = `Round ${round}!`;
             
-            let result = playRound(playerSelection, computerSelection);
+            const result = playRound(playerSelection, computerSelection);
+            const roundResult = document.querySelector("#roundResult");
             switch (result) {
                 case 'tie':
-                    console.log(tie(playerSelection));
+                    roundResult.innerText = tie(playerSelection);
                     break;
         
                 case 'player win':
-                    console.log(playerWin(playerSelection, computerSelection));
+                    roundResult.innerText = playerWin(playerSelection, computerSelection);
                     playerScore++;
                     break;
         
                 case 'player lose':
-                    console.log(playerLose(playerSelection, computerSelection));
+                    roundResult.innerText = playerLose(playerSelection, computerSelection);
                     computerScore++;
                     break;
         
@@ -103,12 +107,15 @@ function game() {
                     console.log("Something is wrong with the result");
             }
         
-            console.log(`**Scoreboard**`);
-            console.log(`Player: ${playerScore}`);
-            console.log(`Computer: ${computerScore}`);
+            roundResult.innerText += (`\n**Scoreboard**
+            Player: ${playerScore}
+            Computer: ${computerScore}`);
+
+            round++;
 
             if (playerScore >= 5 || computerScore >= 5) {
-                showWinner(playerScore, computerScore);
+                const winner = document.querySelector("#winner");
+                winner.innerText = getWinner(playerScore, computerScore);
             }
         });
     });
