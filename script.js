@@ -16,7 +16,7 @@ function playRound(playerSelection, computerSelection) {
     } else if (playerSelection === computerSelection) {
         return 'tie';
     } else {
-        return 'Error! Result not expected';
+        return 'error';
     }
 }
 
@@ -28,18 +28,41 @@ function getPlayerChoice() {
     return capitalizeSelection(playerChoice);
 }
 
-/*
-listen for user selection
-user clicks one of the rps buttons
-button get user selection
-display user selection
-get computer selection
-display computer selection
-compare user and computer selection
-display winner of the round
-add score to winner
+function displayRoundResult(winner, playerSelection, computerSelection) {
+    const displaySection = document.querySelector('#results');
+    displaySection.textContent = '';
 
-*/
+    const playerSection = document.createElement('p');
+    playerSection.id = 'player-choice';
+    playerSection.textContent = `Player has selected ${playerSelection}!`;
+    displaySection.append(playerSection);
+
+    const computerSection = document.createElement('p');
+    computerSection.id = 'computer-choice';
+    computerSection.textContent = `Computer has selected ${computerSelection}!`;
+    displaySection.append(computerSection);
+
+    const roundResult = document.createElement('p');
+    roundResult.id = 'round-result';
+    switch (winner) {
+        case 'player':
+            roundResult.textContent = `You win! ${playerSelection} beats ${computerSelection}`;
+            break;
+        
+        case 'computer':
+            roundResult.textContent = `You lose! ${computerSelection} beats ${playerSelection}`;
+            break;
+
+        case 'tie':
+            roundResult.textContent = `It's a tie! Both of you select ${playerSelection}`;
+            break;
+
+        case 'error':
+            roundResult.textContent = "I don't know what happened, it's not working!";
+            break;
+    }
+    displaySection.append(roundResult);
+}
 
 function game() {
     const rpsButtons = document.querySelector('#rps-buttons');
@@ -62,8 +85,8 @@ function game() {
                 break;
         }
 
-        const winner = playRound(playerSelection, computerSelection);
-        console.log(winner);
+        const roundWinner = playRound(playerSelection, computerSelection);
+        displayRoundResult(roundWinner, playerSelection, computerSelection);
     });
 }
 
