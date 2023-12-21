@@ -52,12 +52,30 @@ function getPlayerChoice() {
 }
 
 function game() {
-    for (let i = 0; i < 5; i++) {
-        const playerSelection = getPlayerChoice();
-        const computerSelection = getComputerChoice();
-        const roundResult = playRound(playerSelection, computerSelection);
-        console.log(roundResult);
-    }
+    const rpsButtons = document.querySelector('#rps-buttons');
+    console.log(rpsButtons);
+    rpsButtons.addEventListener('click', event => {
+        let target = event.target;
+
+        switch (target.id) {
+            case 'rock':
+                console.log('User selects Rock');
+                break;
+            
+            case 'paper':
+                console.log('User selects Paper');
+                break;
+
+            case 'scissors':
+                console.log('User selects Scissors');
+                break;
+        }
+    })
+
+    // const playerSelection = getPlayerChoice();
+    // const computerSelection = getComputerChoice();
+    // const roundResult = playRound(playerSelection, computerSelection);
+    // console.log(roundResult);
 }
 
 game();
