@@ -20,14 +20,6 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-function getPlayerChoice() {
-    let playerChoice = prompt("Enter your selection (Rock/Paper/Scissors", '').toLowerCase();
-    while (!(playerChoice == 'rock' || playerChoice == 'paper' || playerChoice == 'scissors')) {
-        playerChoice = prompt("Please enter Rock, Paper and Scissors only", '').toLowerCase();
-    }
-    return capitalizeSelection(playerChoice);
-}
-
 function displayRoundResult(winner, playerSelection, computerSelection) {
     const displaySection = document.querySelector('#results');
     displaySection.textContent = '';
@@ -64,7 +56,14 @@ function displayRoundResult(winner, playerSelection, computerSelection) {
     displaySection.append(roundResult);
 }
 
+function displayScore(playerScore, computerScore) {
+    const scoreboard = document.querySelector('#scoreboard');
+    scoreboard.style['white-space'] = 'pre';
+    scoreboard.textContent = `Scoreboard:\nPlayer score: ${playerScore}\nComputer score: ${computerScore}`;
+}
+
 function game() {
+    let playerScore = 0, computerScore = 0;
     const rpsButtons = document.querySelector('#rps-buttons');
     rpsButtons.addEventListener('click', event => {
         const target = event.target;
@@ -86,7 +85,17 @@ function game() {
         }
 
         const roundWinner = playRound(playerSelection, computerSelection);
+        switch (roundWinner) {
+            case 'player':
+                playerScore++;
+                break;
+            
+            case 'computer':
+                computerScore++;
+                break;
+        }
         displayRoundResult(roundWinner, playerSelection, computerSelection);
+        displayScore(playerScore, computerScore);
     });
 }
 
