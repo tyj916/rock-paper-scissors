@@ -62,6 +62,13 @@ function displayScore(playerScore, computerScore) {
     scoreboard.textContent = `Scoreboard:\nPlayer score: ${playerScore}\nComputer score: ${computerScore}`;
 }
 
+function displayWinner(winner) {
+    const scoreboard = document.querySelector('#scoreboard');
+    const winnerSection = document.createElement('p');
+    winnerSection.textContent = `Game over! The winner is ${winner}!`;
+    scoreboard.append(winnerSection);
+}
+
 function game() {
     let playerScore = 0, computerScore = 0;
     const rpsButtons = document.querySelector('#rps-buttons');
@@ -96,6 +103,12 @@ function game() {
         }
         displayRoundResult(roundWinner, playerSelection, computerSelection);
         displayScore(playerScore, computerScore);
+        
+        if (playerScore === 5 || computerScore === 5) {
+            displayWinner(roundWinner);
+            playerScore = 0;
+            computerScore = 0;
+        }
     });
 }
 
