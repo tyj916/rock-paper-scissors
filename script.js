@@ -5,36 +5,18 @@ function getComputerChoice() {
 }
 
 function playRound(playerSelection, computerSelection) {
-    switch (playerSelection) {
-        case 'Rock':
-            if (computerSelection == 'Scissors') {
-                return 'You Win! Rock beats Scissors';
-            } else if (computerSelection == 'Paper') {
-                return 'You Lose! Paper beats Rock';
-            } else {
-                return 'No one wins! Both of you select Rock';
-            }
-            break;
-
-        case 'Paper':
-            if (computerSelection == 'Rock') {
-                return 'You Win! Paper beats Rock';
-            } else if (computerSelection == 'Scissors') {
-                return 'You Lose! Scissors beats Paper';
-            } else {
-                return 'No one wins! Both of you select Paper';
-            }
-            break;
-
-        case 'Scissors':
-            if (computerSelection == 'Paper') {
-                return 'You Win! Scissors beats Paper';
-            } else if (computerSelection == 'Rock') {
-                return 'You Lose! Rock beats Scissors';
-            } else {
-                return 'No one wins! Both of you select Scissors';
-            }
-            break;
+    if (playerSelection == 'Rock' && computerSelection == 'Scissors' ||
+        playerSelection == 'Paper' && computerSelection == 'Rock' ||
+        playerSelection == 'Scissors' && computerSelection == 'Paper') {
+        return 'player';
+    } else if (playerSelection == 'Rock' && computerSelection == 'Paper' ||
+               playerSelection == 'Paper' && computerSelection == 'Scissors' ||
+               playerSelection == 'Scissors' && computerSelection == 'Rock') {
+        return 'computer';
+    } else if (playerSelection === computerSelection) {
+        return 'tie';
+    } else {
+        return 'Error! Result not expected';
     }
 }
 
@@ -59,10 +41,6 @@ add score to winner
 
 */
 
-function displayPlayerSelection(selection) {
-    console.log(`Player selects ${selection}`)
-}
-
 function game() {
     const rpsButtons = document.querySelector('#rps-buttons');
     rpsButtons.addEventListener('click', event => {
@@ -84,16 +62,9 @@ function game() {
                 break;
         }
 
-        const roundResult = playRound(playerSelection, computerSelection);
-        console.log(roundResult);
+        const winner = playRound(playerSelection, computerSelection);
+        console.log(winner);
     });
-
-
-
-    // const playerSelection = getPlayerChoice();
-    // const computerSelection = getComputerChoice();
-    // const roundResult = playRound(playerSelection, computerSelection);
-    // console.log(roundResult);
 }
 
 game();
