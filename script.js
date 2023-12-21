@@ -4,11 +4,6 @@ function getComputerChoice() {
             (randomChoice == 2) ? 'Paper' : 'Scissors';
 }
 
-function capitalizeSelection(playerSelection) {
-    const firstLetter = playerSelection[0];
-    return firstLetter.toUpperCase() + playerSelection.slice(1).toLowerCase();
-}
-
 function playRound(playerSelection, computerSelection) {
     switch (playerSelection) {
         case 'Rock':
@@ -51,26 +46,49 @@ function getPlayerChoice() {
     return capitalizeSelection(playerChoice);
 }
 
+/*
+listen for user selection
+user clicks one of the rps buttons
+button get user selection
+display user selection
+get computer selection
+display computer selection
+compare user and computer selection
+display winner of the round
+add score to winner
+
+*/
+
+function displayPlayerSelection(selection) {
+    console.log(`Player selects ${selection}`)
+}
+
 function game() {
     const rpsButtons = document.querySelector('#rps-buttons');
-    console.log(rpsButtons);
     rpsButtons.addEventListener('click', event => {
-        let target = event.target;
+        const target = event.target;
+        const computerSelection = getComputerChoice();
+        let playerSelection = null;
 
         switch (target.id) {
             case 'rock':
-                console.log('User selects Rock');
+                playerSelection = 'Rock';
                 break;
             
             case 'paper':
-                console.log('User selects Paper');
+                playerSelection = 'Paper';
                 break;
 
             case 'scissors':
-                console.log('User selects Scissors');
+                playerSelection = 'Scissors';
                 break;
         }
-    })
+
+        const roundResult = playRound(playerSelection, computerSelection);
+        console.log(roundResult);
+    });
+
+
 
     // const playerSelection = getPlayerChoice();
     // const computerSelection = getComputerChoice();
